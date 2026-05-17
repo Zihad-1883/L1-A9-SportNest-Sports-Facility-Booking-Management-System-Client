@@ -98,7 +98,7 @@ const Navbar = () => {
             href="/register"
             className="btn btn-sm bg-[#9dff3f] text-[#0d0e12] font-bold hover:bg-[#b4ff6a] border-none"
           >
-            Sign Up
+            Register
           </Link>
         </div>
       </div>
