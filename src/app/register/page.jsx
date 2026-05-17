@@ -4,10 +4,29 @@ import Link from "next/link";
 import { Button } from "@heroui/react";
 import { FcGoogle } from "react-icons/fc";
 import { ArrowRight } from "lucide-react";
+import { useState } from "react";
 
 const RegisterPage = () => {
+  const [error, setError] = useState("");
+
+  const validatePassword = (password) => {
+    if (password.length < 6) return "Password must be at least 6 characters";
+    if (!/[A-Z]/.test(password))
+      return "Password must contain at least one uppercase letter";
+    if (!/[a-z]/.test(password))
+      return "Password must contain at least one lowercase letter";
+    return null;
+  };
+
   const handleRegister = (e) => {
     e.preventDefault();
+    const password = e.target.password.value;
+    const err = validatePassword(password);
+    if (err) {
+      setError(err);
+      return;
+    }
+    setError("");
   };
 
   const handleGoogleLogin = () => {};
@@ -74,6 +93,7 @@ const RegisterPage = () => {
               placeholder="••••••••"
               className="w-full bg-[#0d0e12] border border-[#2e3038] text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition"
             />
+            {error && <p className="text-red-400 text-xs mt-1">{error}</p>}
           </div>
 
           <Button
