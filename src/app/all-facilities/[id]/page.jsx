@@ -1,7 +1,7 @@
+import BookingForm from "@/app/components/BookingForm";
 import FacilitiesDetails from "@/app/components/FacilitiesDetails";
 import { fetchFacilities } from "@/lib/facilities/data";
 import React from "react";
-
 
 const FacilitiesDetailsPage = async ({ params }) => {
   const { id } = await params;
@@ -14,7 +14,10 @@ const FacilitiesDetailsPage = async ({ params }) => {
   return (
     <div className="container mx-auto">
       <h1>details</h1>
-      <FacilitiesDetails facility={facility}></FacilitiesDetails>
+      <div className="grid md:grid-cols-2 items-center">
+        <FacilitiesDetails facility={facility}></FacilitiesDetails>
+        <BookingForm facility={facility}></BookingForm>
+      </div>
     </div>
   );
 };

@@ -1,6 +1,19 @@
-import React from "react";
+"use client";
 
-const BookingForm = () => {
+import { Button } from "@heroui/react";
+import { Calendar, Clock, MapPin, Timer } from "lucide-react";
+import { FaBangladeshiTakaSign } from "react-icons/fa6";
+import React, { useState } from "react";
+
+const BookingForm = ({ facility }) => {
+  const [totalPrice, setTotalPrice] = useState("0");
+  const handleTotalPrice = (e) => {
+    const totalHour = e.target.value;
+    // console.log("total hour", totalHour);
+    setTotalPrice(totalHour * facility.price_per_hour);
+    // console.log("total price", totalPrice);
+  };
+
   return (
     <div className="my-20 bg-[#0d0e12] flex items-center justify-center px-4">
       <div className="bg-[#1a1b22] border border-[#2e3038] rounded-2xl p-8 w-full max-w-lg">
@@ -13,8 +26,7 @@ const BookingForm = () => {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-          {/* Facility Name */}
+        <form className="flex flex-col gap-5">
           <div className="flex flex-col gap-2">
             <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
               <MapPin size={16} className="text-[#9dff3f]" />
@@ -23,15 +35,14 @@ const BookingForm = () => {
             <input
               type="text"
               name="facilityName"
-              value={bookingData.facilityName}
-              onChange={handleChange}
+              value={facility.name}
               required
+              disabled
               placeholder="Select facility"
               className="w-full bg-[#0d0e12] border border-[#2e3038] text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition"
             />
           </div>
 
-          {/* Booking Date */}
           <div className="flex flex-col gap-2">
             <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
               <Calendar size={16} className="text-[#9dff3f]" />
@@ -40,15 +51,12 @@ const BookingForm = () => {
             <input
               type="date"
               name="bookingDate"
-              value={bookingData.bookingDate}
-              onChange={handleChange}
               required
               min={new Date().toISOString().split("T")[0]}
               className="w-full bg-[#0d0e12] border border-[#2e3038] text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition [color-scheme:dark]"
             />
           </div>
 
-          {/* Time Slot */}
           <div className="flex flex-col gap-2">
             <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
               <Clock size={16} className="text-[#9dff3f]" />
@@ -56,13 +64,11 @@ const BookingForm = () => {
             </label>
             <select
               name="timeSlot"
-              value={bookingData.timeSlot}
-              onChange={handleChange}
               required
               className="w-full bg-[#0d0e12] border border-[#2e3038] text-white rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition cursor-pointer"
             >
               <option value="">Select time slot</option>
-              {timeSlots.map((slot, index) => (
+              {facility.available_slots.map((slot, index) => (
                 <option key={index} value={slot}>
                   {slot}
                 </option>
@@ -70,7 +76,6 @@ const BookingForm = () => {
             </select>
           </div>
 
-          {/* Hours */}
           <div className="flex flex-col gap-2">
             <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
               <Timer size={16} className="text-[#9dff3f]" />
@@ -78,13 +83,12 @@ const BookingForm = () => {
             </label>
             <div className="flex items-center gap-3">
               <input
+                onChange={handleTotalPrice}
                 type="number"
                 name="hours"
-                value={bookingData.hours}
-                onChange={handleChange}
                 required
                 min={1}
-                max={8}
+                max={2}
                 step={1}
                 className="w-full bg-[#0d0e12] border border-[#2e3038] text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition"
               />
@@ -94,20 +98,16 @@ const BookingForm = () => {
             </div>
           </div>
 
-          {/* Total Price */}
           <div className="flex flex-col gap-2">
             <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
-              <DollarSign size={16} className="text-[#9dff3f]" />
+              <FaBangladeshiTakaSign size={16} className="text-[#9dff3f]" />
               Total Price
             </label>
             <div className="bg-[#0d0e12] border border-[#9dff3f] rounded-xl px-4 py-3">
               <div className="flex justify-between items-center">
-                <span className="text-gray-400 text-sm">
-                  ${pricePerHour} × {bookingData.hours} hour
-                  {bookingData.hours > 1 ? "s" : ""}
-                </span>
+                <span className="text-gray-400 text-sm"></span>
                 <span className="text-white font-bold text-xl">
-                  ${totalPrice}
+                  ৳{totalPrice}
                 </span>
               </div>
             </div>
