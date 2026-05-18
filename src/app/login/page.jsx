@@ -4,10 +4,40 @@ import Link from "next/link";
 import { Button } from "@heroui/react";
 import { FcGoogle } from "react-icons/fc";
 import { ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
-  const handleLogin = (e) => {
+  const router = useRouter();
+  const handleLogin = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const user = Object.fromEntries(formData.entries());
+    // console.log(user);
+
+    const { data, error } = await authClient.signIn.email({
+      email: user.email,
+      password: user.password,
+    });
+    console.log(data, error);
+
+    if (data) {
+      toast.success("login Successful");
+      router.push("/");
+    }
+
+    if (error) {
+      toast.error(error.message || "Registration failed");
+      return;
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+    });
   };
 
   return (
@@ -65,6 +95,7 @@ const LoginPage = () => {
         </div>
 
         <Button
+          onClick={handleGoogleLogin}
           className="w-full border border-[#2e3038] text-gray-300 rounded-xl bg-[#0d0e12]"
           startContent={<FcGoogle size={20} />}
           variant="bordered"

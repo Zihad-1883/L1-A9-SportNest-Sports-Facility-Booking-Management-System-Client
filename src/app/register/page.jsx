@@ -5,8 +5,12 @@ import { Button } from "@heroui/react";
 import { FcGoogle } from "react-icons/fc";
 import { ArrowRight } from "lucide-react";
 import { useState } from "react";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const RegisterPage = () => {
+  const router = useRouter();
   const [error, setError] = useState("");
 
   const validatePassword = (password) => {
@@ -18,7 +22,7 @@ const RegisterPage = () => {
     return null;
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     const password = e.target.password.value;
     const err = validatePassword(password);
@@ -27,9 +31,35 @@ const RegisterPage = () => {
       return;
     }
     setError("");
+
+    const formData = new FormData(e.currentTarget);
+    const user = Object.fromEntries(formData.entries());
+    // console.log(user);
+
+    const { data, error } = await authClient.signUp.email({
+      email: user.email,
+      name: user.name,
+      password: user.password,
+      image: user.photoURL,
+    });
+    console.log(data, error);
+
+    if (data) {
+      toast.success("Registered Successfully");
+      router.push("/login");
+    }
+
+    if (error) {
+      toast.error(error.message || "Registration failed");
+      return;
+    }
   };
 
-  const handleGoogleLogin = () => {};
+  const handleGoogleLogin = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+    });
+  };
 
   return (
     <div className="my-20 bg-[#0d0e12] flex items-center justify-center px-4">
@@ -112,7 +142,7 @@ const RegisterPage = () => {
         </div>
 
         <Button
-          onPress={handleGoogleLogin}
+          onClick={handleGoogleLogin}
           className="w-full border border-[#2e3038] text-gray-300 rounded-xl bg-[#0d0e12]"
           startContent={<FcGoogle size={20} />}
           variant="bordered"

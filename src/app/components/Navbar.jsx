@@ -1,9 +1,17 @@
 "use client";
 
+import { Button, Dropdown, Label } from "@heroui/react";
+import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+  console.log(user);
+
   const pathname = usePathname();
 
   const links = [
@@ -13,6 +21,11 @@ const Navbar = () => {
     { href: "/add-facility", label: "Add Facility" },
     { href: "/manage-facilities", label: "Manage My Facilities" },
   ];
+
+  const handleLogout = async () => {
+    toast.success("Logout Successful");
+    await authClient.signOut();
+  };
 
   return (
     <div className="bg-[#0d0e12] border-b border-[#1e2029]">
@@ -87,20 +100,73 @@ const Navbar = () => {
           </ul>
         </div>
 
-        <div className="navbar-end gap-2">
-          <Link
-            href="/login"
-            className="btn btn-sm btn-ghost border border-[#2e3038] text-gray-300 hover:text-white hover:border-gray-500"
-          >
-            Login
-          </Link>
-          <Link
-            href="/register"
-            className="btn btn-sm bg-[#9dff3f] text-[#0d0e12] font-bold hover:bg-[#b4ff6a] border-none"
-          >
-            Register
-          </Link>
-        </div>
+        {user ? (
+          <div className="flex items-center gap-2">
+            <Dropdown>
+              <Button
+                aria-label="Menu"
+                className="bg-[#1a1b22] border border-[#2e3038] text-white hover:border-[#9dff3f] transition-all duration-300 rounded-xl px-4 py-2"
+              >
+                <div className="flex items-center gap-2">
+                  {user?.image ? (
+                    <Image
+                      width={6}
+                      height={6}
+                      src={user?.image}
+                      alt={user?.name}
+                      className="w-6 h-6 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-6 h-6 rounded-full bg-[#9dff3f] text-[#0d0e12] flex items-center justify-center text-xs font-bold">
+                      {user?.name?.charAt(0) || "U"}
+                    </div>
+                  )}
+                  <span className="text-sm font-medium">{user?.name}</span>
+                </div>
+              </Button>
+
+              <Dropdown.Popover className="bg-[#1a1b22] border border-[#2e3038] rounded-xl mt-2 overflow-hidden">
+                {links.map((link) => (
+                  <Dropdown.Menu key={link.href}>
+                    <Dropdown.Item
+                      id={link.href}
+                      textValue={link.label}
+                      className="hover:bg-[#2a2b35] transition-colors duration-200"
+                    >
+                      <Link
+                        href={link.href}
+                        className="block px-4 py-2 text-gray-300 hover:text-[#9dff3f] transition-colors duration-200"
+                      >
+                        {link.label}
+                      </Link>
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                ))}
+              </Dropdown.Popover>
+            </Dropdown>
+            <button
+              onClick={handleLogout}
+              className="btn btn-sm bg-[#9dff3f] text-[#0d0e12] font-bold hover:bg-[#b4ff6a] border-none"
+            >
+              Log Out
+            </button>
+          </div>
+        ) : (
+          <div className="navbar-end gap-2">
+            <Link
+              href="/login"
+              className="btn btn-sm btn-ghost border border-[#2e3038] text-gray-300 hover:text-white hover:border-gray-500"
+            >
+              Login
+            </Link>
+            <Link
+              href="/register"
+              className="btn btn-sm bg-[#9dff3f] text-[#0d0e12] font-bold hover:bg-[#b4ff6a] border-none"
+            >
+              Register
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
