@@ -1,5 +1,7 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
+import { MdPeople, MdBallot } from "react-icons/md";
 
 const FacilitiesCard = ({ facilities }) => {
   return (
@@ -27,25 +29,20 @@ const FacilitiesCard = ({ facilities }) => {
               {facility.description}
             </p>
             <div className="flex items-center gap-2 text-gray-400 text-sm">
-              <span className="text-[#9dff3f]">📍</span> {facility.location}
+              <span className="text-[#9dff3f]">
+                <MdBallot />
+              </span>{" "}
+              {facility.location}
             </div>
             <div className="flex items-center gap-2 text-gray-400 text-sm">
-              <span className="text-[#9dff3f]">👥</span> Capacity:{" "}
-              {facility.capacity} people
-            </div>
-            <div className="flex items-center gap-2 text-gray-400 text-sm">
-              <span className="text-[#9dff3f]">🕐</span>{" "}
-              {facility.available_slots[0]}
+              <span className="text-[#9dff3f]">
+                <MdPeople />
+              </span>{" "}
+              Capacity: {facility.capacity} people
             </div>
             <div className="flex items-center justify-between mt-auto pt-3 border-t border-[#2e3038]">
-              <div>
-                <span className="text-[#9dff3f] font-bold text-lg">
-                  ৳{facility.price_per_hour}
-                </span>
-                <span className="text-gray-500 text-xs"> / hour</span>
-              </div>
               <button className="bg-[#9dff3f] text-[#0d0e12] font-bold text-sm px-4 py-2 rounded-xl hover:bg-[#b4ff6a] transition">
-                Book Now
+                <Link href={`/all-facilities/${facility._id}`}>Book Now</Link>
               </button>
             </div>
           </div>

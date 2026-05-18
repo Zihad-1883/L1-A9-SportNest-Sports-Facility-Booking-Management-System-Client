@@ -9,3 +9,9 @@ export const fetchFeaturedFacilities = async () => {
     const data = await res.json();
     return data;
 }
+
+// export const fetchFacilityDetails = async () => {
+//     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/:id`)
+//     const data = await res.json();
+//     return data;
+// }
