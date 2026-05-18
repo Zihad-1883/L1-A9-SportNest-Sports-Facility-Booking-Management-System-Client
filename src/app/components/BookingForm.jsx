@@ -4,14 +4,32 @@ import { Button } from "@heroui/react";
 import { Calendar, Clock, MapPin, Timer } from "lucide-react";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import React, { useState } from "react";
+import { createBooking } from "@/lib/facilities/action";
 
 const BookingForm = ({ facility }) => {
   const [totalPrice, setTotalPrice] = useState("0");
+
   const handleTotalPrice = (e) => {
     const totalHour = e.target.value;
     // console.log("total hour", totalHour);
     setTotalPrice(totalHour * facility.price_per_hour);
     // console.log("total price", totalPrice);
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const bookedFacility = Object.fromEntries(formData.entries());
+    console.log(bookedFacility);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my-bookings`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(bookedFacility),
+    });
+    const data = await res.json();
+    console.log(data);
   };
 
   return (
@@ -26,7 +44,7 @@ const BookingForm = ({ facility }) => {
           </p>
         </div>
 
-        <form className="flex flex-col gap-5">
+        <form onSubmit={onSubmit} className="flex flex-col gap-5">
           <div className="flex flex-col gap-2">
             <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
               <MapPin size={16} className="text-[#9dff3f]" />

@@ -1,11 +1,11 @@
 import BookingForm from "@/app/components/BookingForm";
 import FacilitiesDetails from "@/app/components/FacilitiesDetails";
-import { fetchFacilities } from "@/lib/facilities/data";
+import { fetchFacilities } from "@/lib/facilities/action";
 import React from "react";
 
 const FacilitiesDetailsPage = async ({ params }) => {
   const { id } = await params;
-  console.log(id);
+  // console.log(id);
   const facilities = await fetchFacilities();
   //   console.log(facilities);
   const facility = facilities.find((f) => f._id === id);

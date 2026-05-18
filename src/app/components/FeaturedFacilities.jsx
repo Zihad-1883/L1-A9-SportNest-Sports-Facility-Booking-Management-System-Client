@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchFeaturedFacilities } from "@/lib/facilities/data";
+import { fetchFeaturedFacilities } from "@/lib/facilities/action";
 import FacilitiesCard from "./FacilitiesCard";
 
 const FeaturedFacilities = async () => {

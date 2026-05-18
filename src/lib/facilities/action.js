@@ -10,8 +10,14 @@ export const fetchFeaturedFacilities = async () => {
     return data;
 }
 
-// export const fetchFacilityDetails = async () => {
-//     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/:id`)
+// export const createBooking = async (bookingData) => {
+//     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my-bookings`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(bookingData)
+//     });
 //     const data = await res.json();
 //     return data;
 // }

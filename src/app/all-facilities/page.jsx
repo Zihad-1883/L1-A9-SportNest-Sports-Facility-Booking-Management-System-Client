@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchFacilities } from "@/lib/facilities/data";
+import { fetchFacilities } from "@/lib/facilities/action";
 import FacilitiesCard from "../components/FacilitiesCard";
 
 const AllFacilitiesPage = async () => {
