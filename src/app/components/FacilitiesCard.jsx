@@ -1,0 +1,58 @@
+import Image from "next/image";
+import React from "react";
+
+const FacilitiesCard = ({ facilities }) => {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-15">
+      {facilities.map((facility) => (
+        <div
+          key={facility._id}
+          className="bg-[#1a1b22] border border-[#2e3038] rounded-2xl overflow-hidden flex flex-col"
+        >
+          <div className="relative">
+            <Image
+              width={300}
+              height={300}
+              src={facility.image}
+              alt={facility.name}
+              className="w-full h-48 object-cover"
+            />
+            <span className="absolute top-3 left-3 bg-[#9dff3f] text-[#0d0e12] text-xs font-bold px-3 py-1 rounded-full">
+              {facility.facility_type}
+            </span>
+          </div>
+          <div className="p-5 flex flex-col flex-1 gap-3">
+            <h3 className="text-white font-bold text-lg">{facility.name}</h3>
+            <p className="text-gray-400 text-sm line-clamp-2">
+              {facility.description}
+            </p>
+            <div className="flex items-center gap-2 text-gray-400 text-sm">
+              <span className="text-[#9dff3f]">📍</span> {facility.location}
+            </div>
+            <div className="flex items-center gap-2 text-gray-400 text-sm">
+              <span className="text-[#9dff3f]">👥</span> Capacity:{" "}
+              {facility.capacity} people
+            </div>
+            <div className="flex items-center gap-2 text-gray-400 text-sm">
+              <span className="text-[#9dff3f]">🕐</span>{" "}
+              {facility.available_slots[0]}
+            </div>
+            <div className="flex items-center justify-between mt-auto pt-3 border-t border-[#2e3038]">
+              <div>
+                <span className="text-[#9dff3f] font-bold text-lg">
+                  ৳{facility.price_per_hour}
+                </span>
+                <span className="text-gray-500 text-xs"> / hour</span>
+              </div>
+              <button className="bg-[#9dff3f] text-[#0d0e12] font-bold text-sm px-4 py-2 rounded-xl hover:bg-[#b4ff6a] transition">
+                Book Now
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default FacilitiesCard;

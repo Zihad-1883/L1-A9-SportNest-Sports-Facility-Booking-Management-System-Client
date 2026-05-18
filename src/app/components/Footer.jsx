@@ -80,7 +80,7 @@ const Footer = () => {
                   size={18}
                   className="text-[#9dff3f] flex-shrink-0"
                 />
-                123 Sport Ave, NY
+                123 Sport Ave, Dhaka
               </li>
               <li className="flex items-center gap-2 text-gray-400 text-sm">
                 <MdPhone size={18} className="text-[#9dff3f] flex-shrink-0" />
