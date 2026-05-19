@@ -1,13 +1,16 @@
+"use client";
+
 import React, { useState } from "react";
-import { Button } from "@heroui/react";
-import { MapPin, Users, Clock, FileText } from "lucide-react";
-import { MdEmail, MdSportsSoccer } from "react-icons/md";
-import { FaCamera, FaNoteSticky, FaBangladeshiTakaSign } from "react-icons/fa6";
+import { Button, Modal } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { MdEmail, MdSportsSoccer } from "react-icons/md";
+import { FaBangladeshiTakaSign, FaCamera, FaNoteSticky } from "react-icons/fa6";
+import { Clock, FileText, MapPin, Users } from "lucide-react";
 
-const AddFacilityForm = () => {
+const EditFacilityForm = ({ facility }) => {
+  // console.log(facility);
   const router = useRouter();
   const { data: session } = authClient.useSession();
   const user = session?.user;
@@ -37,7 +40,7 @@ const AddFacilityForm = () => {
   const handleMultipleSlots = (slot) => {
     // console.log(slot);
     setSelectedSlots((old) => {
-      console.log(old);
+      // console.log(old);
       if (old.includes(slot)) {
         return old.filter((s) => s !== slot);
       } else {
@@ -49,7 +52,7 @@ const AddFacilityForm = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const newFacility = {
+    const editedFacility = {
       name: formData.get("name"),
       facility_type: formData.get("facility_type"),
       image: formData.get("image"),
@@ -62,207 +65,224 @@ const AddFacilityForm = () => {
     };
     if (selectedSlots.length === 0) {
       toast.error("Please Select A Time Slot");
+      return;
     }
-    // console.log(newFacility);
+    // console.log(editedFacility);
 
-    const res = await fetch("http://localhost:8080/added-facilities", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const res = await fetch(
+      `http://localhost:8080/all-facilities/${facility._id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(editedFacility),
       },
-      body: JSON.stringify(newFacility),
-    });
+    );
     const data = await res.json();
     // console.log(data);
-    toast.success("Facility Added Successfully");
-    router.push("/all-facilities");
+    if (res.status === 409) {
+      toast.error(data.error);
+      return;
+    } else {
+      toast.success("Facility Booked Successfully");
+      window.location.reload();
+    }
   };
 
   return (
-    <div className="my-20 bg-[#0d0e12] flex items-center justify-center px-4">
-      <div className="bg-[#1a1b22] border border-[#2e3038] rounded-2xl p-8 w-full max-w-lg">
-        <div className="mb-8">
-          <h2 className="text-3xl font-black text-white">
-            Add <span className="text-[#9dff3f]">Facility</span>
-          </h2>
-        </div>
+    <Modal>
+      <Button className="bg-[#9dff3f] text-[#0d0e12] font-bold text-sm px-4 py-2 rounded-xl hover:bg-[#b4ff6a] transition">
+        Edit Facility
+      </Button>
+      <Modal.Backdrop className="bg-black/60 backdrop-blur-sm">
+        <Modal.Container placement="auto">
+          <Modal.Dialog className="bg-[#1a1b22] border border-[#2e3038] rounded-2xl w-full max-w-lg mx-4">
+            <Modal.CloseTrigger className="text-gray-500 hover:text-white transition absolute top-4 right-4" />
 
-        <form onSubmit={onSubmit} className="flex flex-col gap-5">
-          <div className="flex flex-col gap-2">
-            <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
-              <FileText size={16} className="text-[#9dff3f]" /> Facility Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              required
-              placeholder="e.g. Green Turf Football Arena"
-              className="w-full bg-[#0d0e12] border border-[#2e3038] text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition"
-            />
-          </div>
+            <Modal.Header className="p-8 pb-0">
+              <Modal.Heading className="text-3xl font-black text-white">
+                Edit <span className="text-[#9dff3f]">Facility</span>
+              </Modal.Heading>
+              <p className="text-gray-400 mt-2 text-sm">
+                Update your facility details below.
+              </p>
+            </Modal.Header>
 
-          <div className="flex flex-col gap-2">
-            <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
-              <MdSportsSoccer size={16} className="text-[#9dff3f]" /> Facility
-              Type
-            </label>
-            <select
-              name="facility_type"
-              required
-              className="w-full bg-[#0d0e12] border border-[#2e3038] text-white rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition cursor-pointer"
-            >
-              <option value="">Select type</option>
-              {facilityTypes.map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label className="text-gray-300 text-sm font-medium">
-              <div className="flex items-center gap-2">
-                <FaCamera size={16} className="text-[#9dff3f]" /> Facility Image
-              </div>
-            </label>
-            <input
-              type="url"
-              name="image"
-              required
-              placeholder="Add image url here"
-              className="w-full bg-[#0d0e12] border border-[#2e3038] text-gray-400 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition cursor-pointer file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-[#9dff3f] file:text-[#0d0e12] file:text-xs file:font-bold"
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
-              <MapPin size={16} className="text-[#9dff3f]" /> Location
-            </label>
-            <input
-              type="text"
-              name="location"
-              required
-              placeholder="e.g. Dhanmondi, Dhaka"
-              className="w-full bg-[#0d0e12] border border-[#2e3038] text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition"
-            />
-          </div>
-
-          <div className="flex gap-3">
-            <div className="flex flex-col gap-2 flex-1">
-              <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
-                <FaBangladeshiTakaSign size={16} className="text-[#9dff3f]" />{" "}
-                Price/Hour (in Taka)
-              </label>
-              <input
-                type="number"
-                name="price_per_hour"
-                required
-                min={1}
-                placeholder="1200"
-                className="w-full bg-[#0d0e12] border border-[#2e3038] text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition"
-              />
-            </div>
-            <div className="flex flex-col gap-2 flex-1">
-              <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
-                <Users size={16} className="text-[#9dff3f]" /> Capacity
-              </label>
-              <input
-                type="number"
-                name="capacity"
-                required
-                min={1}
-                placeholder="22"
-                className="w-full bg-[#0d0e12] border border-[#2e3038] text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition"
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
-              <Clock size={16} className="text-[#9dff3f]" />
-              Select Time Slots (Multiple selection allowed)
-            </label>
-            <div className="grid grid-cols-2 gap-3">
-              {availableSlots.map((slot) => (
-                <label
-                  key={slot}
-                  className={`flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer
-                    ${
-                      selectedSlots.includes(slot)
-                        ? "bg-[#9dff3f]/10 border-[#9dff3f]"
-                        : "bg-[#0d0e12] border-[#2e3038] hover:border-gray-500"
-                    }`}
-                >
+            <Modal.Body className="p-8 pt-6 max-h-[70vh] overflow-y-auto">
+              <form onSubmit={onSubmit} className="flex flex-col gap-5">
+                <div className="flex flex-col gap-2">
+                  <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
+                    <FileText size={16} className="text-[#9dff3f]" /> Facility
+                    Name
+                  </label>
                   <input
-                    type="checkbox"
-                    onChange={() => handleMultipleSlots(slot)}
-                    className="w-4 h-4 rounded border-[#2e3038] bg-[#9dff3f]"
+                    type="text"
+                    name="name"
+                    required
+                    defaultValue={facility.name}
+                    className="w-full bg-[#0d0e12] border border-[#2e3038] text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition"
                   />
-                  <span
-                    className={`text-sm ${selectedSlots.includes(slot) ? "text-[#9dff3f]" : "text-gray-300"}`}
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
+                    <MdSportsSoccer size={16} className="text-[#9dff3f]" />{" "}
+                    Facility Type
+                  </label>
+                  <select
+                    name="facility_type"
+                    required
+                    defaultValue={facility.facility_type}
+                    className="w-full bg-[#0d0e12] border border-[#2e3038] text-white rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition cursor-pointer"
                   >
-                    {slot}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </div>
+                    <option value="">Select type</option>
+                    {facilityTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-          <div className="flex flex-col gap-2">
-            <label className="text-gray-300 text-sm font-medium">
-              <div className="flex items-center gap-2">
-                <FaNoteSticky size={16} className="text-[#9dff3f]" />{" "}
-                Description
-              </div>
-            </label>
-            <textarea
-              name="description"
-              required
-              rows={4}
-              placeholder="Describe your facility..."
-              className="w-full bg-[#0d0e12] border border-[#2e3038] text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition resize-none"
-            />
-          </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
+                    <FaCamera size={16} className="text-[#9dff3f]" /> Facility
+                    Image
+                  </label>
+                  <input
+                    type="url"
+                    name="image"
+                    required
+                    defaultValue={facility.image}
+                    className="w-full bg-[#0d0e12] border border-[#2e3038] text-gray-400 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition"
+                  />
+                </div>
 
-          <div className="flex flex-col gap-2">
-            <label className="text-gray-300 text-sm font-medium">
-              <div className="flex items-center gap-2">
-                <MdEmail size={16} className="text-[#9dff3f]" /> Owner Email
-              </div>
-            </label>
-            <input
-              type="email"
-              name="owner_email"
-              value={user?.email || ""}
-              disabled
-              className="w-full bg-[#0d0e12] border border-[#2e3038] text-gray-500 rounded-xl px-4 py-3 text-sm outline-none transition"
-            />
-          </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
+                    <MapPin size={16} className="text-[#9dff3f]" /> Location
+                  </label>
+                  <input
+                    type="text"
+                    name="location"
+                    required
+                    defaultValue={facility.location}
+                    className="w-full bg-[#0d0e12] border border-[#2e3038] text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition"
+                  />
+                </div>
 
-          <Button
-            type="submit"
-            className="bg-[#9dff3f] text-[#0d0e12] font-bold rounded-xl hover:bg-[#b4ff6a] w-full mt-2"
-          >
-            Add Facility
-          </Button>
-        </form>
+                <div className="flex gap-3">
+                  <div className="flex flex-col gap-2 flex-1">
+                    <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
+                      <FaBangladeshiTakaSign
+                        size={16}
+                        className="text-[#9dff3f]"
+                      />{" "}
+                      Price/Hour
+                    </label>
+                    <input
+                      type="number"
+                      name="price_per_hour"
+                      required
+                      min={1}
+                      defaultValue={facility.price_per_hour}
+                      className="w-full bg-[#0d0e12] border border-[#2e3038] text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2 flex-1">
+                    <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
+                      <Users size={16} className="text-[#9dff3f]" /> Capacity
+                    </label>
+                    <input
+                      type="number"
+                      name="capacity"
+                      required
+                      min={1}
+                      defaultValue={facility.capacity}
+                      className="w-full bg-[#0d0e12] border border-[#2e3038] text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition"
+                    />
+                  </div>
+                </div>
 
-        <div className="flex items-center gap-3 my-6">
-          <div className="flex-1 h-px bg-[#2e3038]" />
-          <span className="text-gray-500 text-sm">Your Listing</span>
-          <div className="flex-1 h-px bg-[#2e3038]" />
-        </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
+                    <Clock size={16} className="text-[#9dff3f]" /> Select Time
+                    Slots
+                  </label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {availableSlots.map((slot) => (
+                      <label
+                        key={slot}
+                        className={`flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
+                          selectedSlots.includes(slot)
+                            ? "bg-[#9dff3f]/10 border-[#9dff3f]"
+                            : "bg-[#0d0e12] border-[#2e3038] hover:border-gray-500"
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          onChange={() => handleMultipleSlots(slot)}
+                          className="w-4 h-4 rounded"
+                        />
+                        <span
+                          className={`text-sm ${selectedSlots.includes(slot) ? "text-[#9dff3f]" : "text-gray-300"}`}
+                        >
+                          {slot}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
 
-        <p className="text-center text-gray-500 text-xs">
-          By adding a facility, you agree to our{" "}
-          <button className="text-[#9dff3f] hover:underline">
-            listing policy
-          </button>
-        </p>
-      </div>
-    </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
+                    <FaNoteSticky size={16} className="text-[#9dff3f]" />{" "}
+                    Description
+                  </label>
+                  <textarea
+                    name="description"
+                    required
+                    rows={4}
+                    defaultValue={facility.description}
+                    className="w-full bg-[#0d0e12] border border-[#2e3038] text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition resize-none"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
+                    <MdEmail size={16} className="text-[#9dff3f]" /> Owner Email
+                  </label>
+                  <input
+                    type="email"
+                    name="owner_email"
+                    value={user?.email || ""}
+                    disabled
+                    className="w-full bg-[#0d0e12] border border-[#2e3038] text-gray-500 rounded-xl px-4 py-3 text-sm outline-none transition"
+                  />
+                </div>
+
+                <div className="flex gap-3 pt-2">
+                  <Button
+                    slot="close"
+                    className="flex-1 bg-[#0d0e12] border border-[#2e3038] text-gray-300 rounded-xl hover:border-gray-500 hover:text-white transition"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    className="flex-1 bg-[#9dff3f] text-[#0d0e12] font-bold rounded-xl hover:bg-[#b4ff6a] transition"
+                  >
+                    Save Changes
+                  </Button>
+                </div>
+              </form>
+            </Modal.Body>
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
+    </Modal>
   );
 };
 
-export default AddFacilityForm;
+export default EditFacilityForm;

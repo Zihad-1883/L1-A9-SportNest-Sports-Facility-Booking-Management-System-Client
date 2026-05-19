@@ -37,7 +37,7 @@ const AddFacilityForm = () => {
   const handleMultipleSlots = (slot) => {
     // console.log(slot);
     setSelectedSlots((old) => {
-      console.log(old);
+      // console.log(old);
       if (old.includes(slot)) {
         return old.filter((s) => s !== slot);
       } else {
