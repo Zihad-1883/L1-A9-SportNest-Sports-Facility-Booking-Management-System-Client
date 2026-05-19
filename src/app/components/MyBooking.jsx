@@ -3,9 +3,11 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { CiTimer } from "react-icons/ci";
 import { FaClock } from "react-icons/fa6";
 import { BookingDeleteAlert } from "./BookingDeleteAlert";
+import Image from "next/image";
 
 const MyBookingsPage = ({ bookings }) => {
   //   console.log(bookings._id);
+  console.log(bookings);
 
   return (
     <div className="bg-[#0d0e12] min-h-screen py-16 px-6">
@@ -21,36 +23,47 @@ const MyBookingsPage = ({ bookings }) => {
                 key={booking._id}
                 className="bg-[#1a1b22] border border-[#2e3038] rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4"
               >
-                <div className="flex flex-col gap-3 flex-1">
-                  <h3 className="text-white font-bold text-lg">
-                    {booking.bookedFacilityName}
-                  </h3>
+                <div className="flex items-center gap-5 flex-1">
+                  <div className="hidden sm:block">
+                    <Image
+                      src={booking.bookedFacilityImage}
+                      alt={booking.name}
+                      width={160}
+                      height={160}
+                      className="w-full h-20 object-cover rounded-2xl"
+                    ></Image>
+                  </div>
 
-                  <div className="flex flex-wrap gap-4">
-                    <div className="flex items-center gap-2 text-gray-400 text-sm">
-                      <span className="text-[#9dff3f]">
-                        <FaCalendarAlt />
-                      </span>
-                      {new Date(booking.bookedDate).toLocaleDateString(
-                        "en-GB",
-                        {
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                        },
-                      )}
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-400 text-sm">
-                      <span className="text-[#9dff3f]">
-                        <FaClock />
-                      </span>
-                      {booking.bookedTimeSlot}
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-400 text-sm">
-                      <span className="text-[#9dff3f]">
-                        <CiTimer />
-                      </span>
-                      {booking.bookedHours} hour(s)
+                  <div className="flex flex-col">
+                    <h3 className="text-white font-bold text-lg mb-3">
+                      {booking.bookedFacilityName}
+                    </h3>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <div className="flex items-center gap-2 text-gray-400 text-sm">
+                        <span className="text-[#9dff3f]">
+                          <FaCalendarAlt />
+                        </span>
+                        {new Date(booking.bookedDate).toLocaleDateString(
+                          "en-GB",
+                          {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                          },
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2 text-gray-400 text-sm">
+                        <span className="text-[#9dff3f]">
+                          <FaClock />
+                        </span>
+                        {booking.bookedTimeSlot}
+                      </div>
+                      <div className="flex items-center gap-2 text-gray-400 text-sm">
+                        <span className="text-[#9dff3f]">
+                          <CiTimer />
+                        </span>
+                        {booking.bookedHours} hour(s)
+                      </div>
                     </div>
                   </div>
                 </div>

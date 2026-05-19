@@ -9,7 +9,7 @@ import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
 
 const BookingForm = ({ facility }) => {
-  // console.log(facility);
+  console.log(facility);
   const { data: session } = authClient.useSession();
   const user = session?.user;
   // console.log(user);
@@ -30,6 +30,7 @@ const BookingForm = ({ facility }) => {
       bookedHours: e.target.hours.value,
       bookedTotalPrice: totalPrice,
       bookedDate: new Date(bookingDate),
+      bookedFacilityImage: facility.image,
     };
     // console.log(bookingData);
     const res = await fetch(`http://localhost:8080/my-bookings`, {

@@ -7,8 +7,10 @@ import { MdEmail, MdSportsSoccer } from "react-icons/md";
 import { authClient } from "@/lib/auth-client";
 import { FaCamera, FaNoteSticky, FaBangladeshiTakaSign } from "react-icons/fa6";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
-const AddFacilityPage = ({ facility }) => {
+const AddFacilityPage = () => {
+  const router = useRouter();
   const { data: session } = authClient.useSession();
   const user = session?.user;
   const facilityTypes = [
@@ -46,7 +48,7 @@ const AddFacilityPage = ({ facility }) => {
     });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const newFacility = {
@@ -59,13 +61,23 @@ const AddFacilityPage = ({ facility }) => {
       available_slots: selectedSlots,
       description: formData.get("description"),
       owner_email: user?.email,
-      owner_name: user?.name,
-      createdAt: new Date(),
     };
     if (selectedSlots.length === 0) {
       toast.error("Please Select A Time Slot");
     }
-    console.log(newFacility);
+    // console.log(newFacility);
+
+    const res = await fetch("http://localhost:8080/added-facilities", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newFacility),
+    });
+    const data = await res.json();
+    // console.log(data);
+    toast.success("Facility Added Successfully");
+    router.push("/all-facilities");
   };
 
   return (
