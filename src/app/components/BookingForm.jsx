@@ -7,9 +7,11 @@ import { FaCalendarAlt } from "react-icons/fa";
 import React, { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const BookingForm = ({ facility }) => {
-  console.log(facility);
+  const router = useRouter();
+  // console.log(facility);
   const { data: session } = authClient.useSession();
   const user = session?.user;
   // console.log(user);
@@ -42,7 +44,12 @@ const BookingForm = ({ facility }) => {
     });
     const data = await res.json();
     // console.log(data);
-    toast.success("Facility Booked Successfully");
+    if (res.status === 409) {
+      toast.error(data.error);
+    } else {
+      toast.success("Facility Booked Successfully");
+      router.push("/my-bookings");
+    }
   };
 
   const handleTotalPrice = (e) => {

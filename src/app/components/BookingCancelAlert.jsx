@@ -2,7 +2,7 @@
 
 import { AlertDialog, Button, DangerIcon } from "@heroui/react";
 
-export function BookingDeleteAlert({ bookingId }) {
+export function BookingCancelAlert({ bookingId }) {
   //   console.log(bookingId);
   const handleDeleteBooking = async () => {
     const res = await fetch(`http://localhost:8080/my-bookings/${bookingId}`, {

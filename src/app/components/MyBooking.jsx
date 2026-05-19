@@ -2,12 +2,12 @@
 import { FaCalendarAlt } from "react-icons/fa";
 import { CiTimer } from "react-icons/ci";
 import { FaClock } from "react-icons/fa6";
-import { BookingDeleteAlert } from "./BookingDeleteAlert";
+import { BookingCancelAlert } from "./BookingCancelAlert";
 import Image from "next/image";
 
 const MyBookingsPage = ({ bookings }) => {
   //   console.log(bookings._id);
-  console.log(bookings);
+  // console.log(bookings);
 
   return (
     <div className="bg-[#0d0e12] min-h-screen py-16 px-6">
@@ -81,7 +81,7 @@ const MyBookingsPage = ({ bookings }) => {
                     Pending
                   </span>
 
-                  <BookingDeleteAlert bookingId={booking._id} />
+                  <BookingCancelAlert bookingId={booking._id} />
                 </div>
               </div>
             ))}
