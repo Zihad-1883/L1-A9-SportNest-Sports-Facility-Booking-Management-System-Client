@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 const Navbar = () => {
   const { data: session } = authClient.useSession();
   const user = session?.user;
-  console.log(user);
+  // console.log(user);
 
   const pathname = usePathname();
 
@@ -101,7 +101,7 @@ const Navbar = () => {
         </div>
 
         {user ? (
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap justify-center items-center gap-2">
             <Dropdown>
               <Button
                 aria-label="Menu"

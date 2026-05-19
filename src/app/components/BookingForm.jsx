@@ -1,13 +1,48 @@
 "use client";
 
 import { Button } from "@heroui/react";
-import { Calendar, Clock, MapPin, Timer } from "lucide-react";
+import { Clock, MapPin, Timer } from "lucide-react";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
+import { FaCalendarAlt } from "react-icons/fa";
 import React, { useState } from "react";
-import { createBooking } from "@/lib/facilities/action";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "react-toastify";
 
 const BookingForm = ({ facility }) => {
+  // console.log(facility);
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+  // console.log(user);
   const [totalPrice, setTotalPrice] = useState("0");
+  const [bookingDate, setBookingDate] = useState(null);
+  // console.log(new Date(bookingDate));
+
+  const handleBooking = async (e) => {
+    e.preventDefault();
+    const bookingData = {
+      userID: user.id,
+      userName: user.name,
+      userEmail: user.email,
+      userImage: user.image,
+      bookedFacilityName: facility.name,
+      bookedFacilityID: facility._id,
+      bookedTimeSlot: e.target.timeSlot.value,
+      bookedHours: e.target.hours.value,
+      bookedTotalPrice: totalPrice,
+      bookedDate: new Date(bookingDate),
+    };
+    // console.log(bookingData);
+    const res = await fetch(`http://localhost:8080/my-bookings`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(bookingData),
+    });
+    const data = await res.json();
+    // console.log(data);
+    toast.success("Facility Booked Successfully");
+  };
 
   const handleTotalPrice = (e) => {
     const totalHour = e.target.value;
@@ -16,21 +51,21 @@ const BookingForm = ({ facility }) => {
     // console.log("total price", totalPrice);
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const bookedFacility = Object.fromEntries(formData.entries());
-    console.log(bookedFacility);
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my-bookings`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(bookedFacility),
-    });
-    const data = await res.json();
-    console.log(data);
-  };
+  // const onSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData(e.currentTarget);
+  //   const bookedFacility = Object.fromEntries(formData.entries());
+  //   console.log(bookedFacility);
+  //   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my-bookings`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-type": "application/json",
+  //     },
+  //     body: JSON.stringify(bookedFacility),
+  //   });
+  //   const data = await res.json();
+  //   console.log(data);
+  // };
 
   return (
     <div className="my-20 bg-[#0d0e12] flex items-center justify-center px-4">
@@ -44,7 +79,7 @@ const BookingForm = ({ facility }) => {
           </p>
         </div>
 
-        <form onSubmit={onSubmit} className="flex flex-col gap-5">
+        <form onSubmit={handleBooking} className="flex flex-col gap-5">
           <div className="flex flex-col gap-2">
             <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
               <MapPin size={16} className="text-[#9dff3f]" />
@@ -63,15 +98,14 @@ const BookingForm = ({ facility }) => {
 
           <div className="flex flex-col gap-2">
             <label className="text-gray-300 text-sm font-medium flex items-center gap-2">
-              <Calendar size={16} className="text-[#9dff3f]" />
-              Booking Date
+              <FaCalendarAlt className="text-[#9dff3f]" /> Booking Date
             </label>
             <input
               type="date"
-              name="bookingDate"
+              name="date"
               required
-              min={new Date().toISOString().split("T")[0]}
-              className="w-full bg-[#0d0e12] border border-[#2e3038] text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition [color-scheme:dark]"
+              onChange={(e) => setBookingDate(e.target.value)}
+              className="w-full bg-[#0d0e12] border border-[#2e3038] text-white rounded-xl px-4 py-3 text-sm outline-none focus:border-[#9dff3f] transition cursor-pointer [color-scheme:dark]"
             />
           </div>
 
