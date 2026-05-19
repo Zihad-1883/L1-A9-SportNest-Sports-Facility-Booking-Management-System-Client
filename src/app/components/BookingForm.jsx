@@ -51,22 +51,6 @@ const BookingForm = ({ facility }) => {
     // console.log("total price", totalPrice);
   };
 
-  // const onSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const formData = new FormData(e.currentTarget);
-  //   const bookedFacility = Object.fromEntries(formData.entries());
-  //   console.log(bookedFacility);
-  //   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my-bookings`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-type": "application/json",
-  //     },
-  //     body: JSON.stringify(bookedFacility),
-  //   });
-  //   const data = await res.json();
-  //   console.log(data);
-  // };
-
   return (
     <div className="my-20 bg-[#0d0e12] flex items-center justify-center px-4">
       <div className="bg-[#1a1b22] border border-[#2e3038] rounded-2xl p-8 w-full max-w-lg">
