@@ -39,7 +39,7 @@ const BookingForm = ({ facility }) => {
     const { data: tokenData } = await authClient.token();
     console.log(tokenData);
 
-    const res = await fetch(`http://localhost:8080/my-bookings`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my-bookings`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",

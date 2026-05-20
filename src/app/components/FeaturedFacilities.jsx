@@ -1,9 +1,9 @@
 import React from "react";
-import { fetchFeaturedFacilities } from "@/lib/facilities/action";
 import FacilitiesCard from "./FacilitiesCard";
 
 const FeaturedFacilities = async () => {
-  const facilities = await fetchFeaturedFacilities();
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/features`);
+  const facilities = await res.json();
   return (
     <div className="container mx-auto">
       <div className="my-10">

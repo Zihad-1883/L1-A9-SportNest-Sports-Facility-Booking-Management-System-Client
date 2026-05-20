@@ -71,7 +71,7 @@ const EditFacilityForm = ({ facility }) => {
 
     const { data: tokenData } = await authClient.token();
     const res = await fetch(
-      `http://localhost:8080/all-facilities/${facility._id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/all-facilities/${facility._id}`,
       {
         method: "PATCH",
         headers: {

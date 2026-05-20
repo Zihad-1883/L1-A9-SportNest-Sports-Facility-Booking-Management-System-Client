@@ -67,7 +67,7 @@ const AddFacilityForm = () => {
 
     const { data: tokenData } = await authClient.token();
 
-    const res = await fetch("http://localhost:8080/all-facilities", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-facilities`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

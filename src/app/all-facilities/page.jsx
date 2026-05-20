@@ -1,9 +1,11 @@
+
+
 import React from "react";
-import { fetchFacilities } from "@/lib/facilities/action";
 import FacilitiesCard from "../components/FacilitiesCard";
 
 const AllFacilitiesPage = async () => {
-  const facilities = await fetchFacilities();
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-facilities`);
+  const facilities = await res.json();
   // console.log(facilities);
 
   return (

@@ -9,7 +9,7 @@ export function FacilityDeleteAlert({ bookingId }) {
   const handleDeleteBooking = async () => {
     const { data: tokenData } = await authClient.token();
     const res = await fetch(
-      `http://localhost:8080/added-facilities/${bookingId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/added-facilities/${bookingId}`,
       {
         method: "DELETE",
         headers: {
