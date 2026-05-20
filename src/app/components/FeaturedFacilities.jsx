@@ -2,8 +2,18 @@ import React from "react";
 import FacilitiesCard from "./FacilitiesCard";
 
 const FeaturedFacilities = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/features`);
-  const facilities = await res.json();
+  let facilities = [];
+
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/features`, {
+      cache: "no-store",
+    });
+    if (res.ok) {
+      facilities = await res.json();
+    }
+  } catch (err) {
+    console.error("Failed to fetch featured facilities:", err.message);
+  }
   return (
     <div className="container mx-auto">
       <div className="my-10">
