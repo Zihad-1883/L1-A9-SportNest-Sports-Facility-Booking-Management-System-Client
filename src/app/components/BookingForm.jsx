@@ -35,10 +35,15 @@ const BookingForm = ({ facility }) => {
       bookedFacilityImage: facility.image,
     };
     // console.log(bookingData);
+
+    const { data: tokenData } = await authClient.token();
+    console.log(tokenData);
+
     const res = await fetch(`http://localhost:8080/my-bookings`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
+        authorization: `Bearer ${tokenData?.token}`,
       },
       body: JSON.stringify(bookingData),
     });

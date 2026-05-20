@@ -4,9 +4,18 @@ import { MdBallot, MdPeople } from "react-icons/md";
 import Link from "next/link";
 import { FacilityDeleteAlert } from "../components/FacilityDeleteAlert";
 import EditFacilityForm from "../components/EditFacilityForm";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 const ManageFacilitiesPage = async () => {
-  const res = await fetch("http://localhost:8080/added-facilities");
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
+  const res = await fetch("http://localhost:8080/added-facilities", {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
   const bookings = await res.json();
   // console.log(bookings);
   return (
@@ -72,7 +81,7 @@ const ManageFacilitiesPage = async () => {
                       Capacity: {booking.capacity} people
                     </div>
                     <div className="flex items-center justify-between mt-auto pt-3 border-t border-[#2e3038]">
-                      <EditFacilityForm facility={booking}/>
+                      <EditFacilityForm facility={booking} />
                       <FacilityDeleteAlert bookingId={booking._id} />
                     </div>
                   </div>

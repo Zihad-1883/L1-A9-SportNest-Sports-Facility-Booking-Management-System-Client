@@ -69,12 +69,14 @@ const EditFacilityForm = ({ facility }) => {
     }
     // console.log(editedFacility);
 
+    const { data: tokenData } = await authClient.token();
     const res = await fetch(
       `http://localhost:8080/all-facilities/${facility._id}`,
       {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${tokenData?.token}`,
         },
         body: JSON.stringify(editedFacility),
       },
@@ -85,7 +87,7 @@ const EditFacilityForm = ({ facility }) => {
       toast.error(data.error);
       return;
     } else {
-      toast.success("Facility Booked Successfully");
+      toast.success("Facility Edited Successfully");
       window.location.reload();
     }
   };

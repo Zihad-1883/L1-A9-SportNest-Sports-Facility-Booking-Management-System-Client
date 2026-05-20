@@ -65,10 +65,13 @@ const AddFacilityForm = () => {
     }
     // console.log(newFacility);
 
+    const { data: tokenData } = await authClient.token();
+
     const res = await fetch("http://localhost:8080/all-facilities", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        authorization: `Bearer ${tokenData?.token}`,
       },
       body: JSON.stringify(newFacility),
     });

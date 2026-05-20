@@ -1,21 +1,26 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { AlertDialog, Button, DangerIcon } from "@heroui/react";
+import { toast } from "react-toastify";
 
 export function FacilityDeleteAlert({ bookingId }) {
   // console.log(bookingId);
   const handleDeleteBooking = async () => {
+    const { data: tokenData } = await authClient.token();
     const res = await fetch(
       `http://localhost:8080/added-facilities/${bookingId}`,
       {
         method: "DELETE",
         headers: {
           "Content-type": "application/json",
+          authorization: `Bearer ${tokenData?.token}`,
         },
       },
     );
     const data = await res.json();
     // console.log(data);
+    toast.success("Facility Deleted Successfully");
     window.location.reload();
   };
   return (
