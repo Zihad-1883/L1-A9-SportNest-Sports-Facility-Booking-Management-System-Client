@@ -3,6 +3,7 @@
 import { authClient } from "@/lib/auth-client";
 import { AlertDialog, Button, DangerIcon } from "@heroui/react";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 
 export function FacilityDeleteAlert({ bookingId }) {
   // console.log(bookingId);
@@ -24,54 +25,61 @@ export function FacilityDeleteAlert({ bookingId }) {
     window.location.reload();
   };
   return (
-    <AlertDialog>
-      <AlertDialog.Trigger>
-        <button className="border border-red-500/40 text-red-400 text-sm px-4 py-2 rounded-xl hover:bg-red-500/10 transition">
-          Delete Facility
-        </button>
-      </AlertDialog.Trigger>
-      <AlertDialog.Backdrop className="bg-black/60 backdrop-blur-sm">
-        <AlertDialog.Container>
-          <AlertDialog.Dialog className="bg-[#1a1b22] border border-[#2e3038] rounded-2xl p-6 w-full max-w-md mx-4 shadow-xl">
-            <AlertDialog.CloseTrigger className="text-gray-500 hover:text-white transition absolute top-4 right-4" />
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8 }}
+    >
+      <AlertDialog>
+        <AlertDialog.Trigger>
+          <button className="border border-red-500/40 text-red-400 text-sm px-4 py-2 rounded-xl hover:bg-red-500/10 transition">
+            Delete Facility
+          </button>
+        </AlertDialog.Trigger>
+        <AlertDialog.Backdrop className="bg-black/60 backdrop-blur-sm">
+          <AlertDialog.Container>
+            <AlertDialog.Dialog className="bg-[#1a1b22] border border-[#2e3038] rounded-2xl p-6 w-full max-w-md mx-4 shadow-xl">
+              <AlertDialog.CloseTrigger className="text-gray-500 hover:text-white transition absolute top-4 right-4" />
 
-            <div className="flex justify-center mb-4">
-              <div className="w-14 h-14 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center">
-                <span className="text-red-400 text-2xl">
-                  <DangerIcon></DangerIcon>
-                </span>
+              <div className="flex justify-center mb-4">
+                <div className="w-14 h-14 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center">
+                  <span className="text-red-400 text-2xl">
+                    <DangerIcon></DangerIcon>
+                  </span>
+                </div>
               </div>
-            </div>
 
-            <AlertDialog.Heading className="text-white font-black text-xl text-center mb-2">
-              Delete this <span className="text-red-400">Facility?</span>
-            </AlertDialog.Heading>
+              <AlertDialog.Heading className="text-white font-black text-xl text-center mb-2">
+                Delete this <span className="text-red-400">Facility?</span>
+              </AlertDialog.Heading>
 
-            <AlertDialog.Body>
-              <p className="text-gray-400 text-sm text-center">
-                This will permanently delete your facility. This action cannot
-                be undone.
-              </p>
-            </AlertDialog.Body>
+              <AlertDialog.Body>
+                <p className="text-gray-400 text-sm text-center">
+                  This will permanently delete your facility. This action cannot
+                  be undone.
+                </p>
+              </AlertDialog.Body>
 
-            <AlertDialog.Footer className="flex gap-3 mt-6">
-              <Button
-                slot="close"
-                className="flex-1 bg-[#0d0e12] border border-[#2e3038] text-gray-300 rounded-xl hover:border-gray-500 hover:text-white transition"
-              >
-                Keep facility
-              </Button>
-              <Button
-                onClick={handleDeleteBooking}
-                slot="close"
-                className="flex-1 bg-red-500/10 border border-red-500/40 text-red-400 rounded-xl hover:bg-red-500/20 transition"
-              >
-                Yes, delete
-              </Button>
-            </AlertDialog.Footer>
-          </AlertDialog.Dialog>
-        </AlertDialog.Container>
-      </AlertDialog.Backdrop>
-    </AlertDialog>
+              <AlertDialog.Footer className="flex gap-3 mt-6">
+                <Button
+                  slot="close"
+                  className="flex-1 bg-[#0d0e12] border border-[#2e3038] text-gray-300 rounded-xl hover:border-gray-500 hover:text-white transition"
+                >
+                  Keep facility
+                </Button>
+                <Button
+                  onClick={handleDeleteBooking}
+                  slot="close"
+                  className="flex-1 bg-red-500/10 border border-red-500/40 text-red-400 rounded-xl hover:bg-red-500/20 transition"
+                >
+                  Yes, delete
+                </Button>
+              </AlertDialog.Footer>
+            </AlertDialog.Dialog>
+          </AlertDialog.Container>
+        </AlertDialog.Backdrop>
+      </AlertDialog>
+    </motion.div>
   );
 }

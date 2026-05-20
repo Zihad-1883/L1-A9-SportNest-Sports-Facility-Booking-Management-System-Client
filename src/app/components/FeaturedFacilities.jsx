@@ -21,6 +21,7 @@ const FeaturedFacilities = async () => {
           Our Featured <span className="text-[#9dff3f]">Facilities</span>
         </h2>
       </div>
+
       <FacilitiesCard facilities={facilities}></FacilitiesCard>
     </div>
   );

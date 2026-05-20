@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Dropdown, Label } from "@heroui/react";
+import { Button, Dropdown } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
