@@ -13,7 +13,7 @@ const AllFacilitiesPage = async () => {
       facilities = await res.json();
     }
   } catch (err) {
-    console.error("Failed to fetch:", err.message);
+    // console.error("Failed to fetch:", err.message);
   }
   // console.log(facilities);
 

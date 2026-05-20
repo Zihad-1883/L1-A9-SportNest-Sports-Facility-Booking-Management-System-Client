@@ -43,7 +43,7 @@ const RegisterPage = () => {
       password: user.password,
       image: user.photoURL,
     });
-    console.log(data, error);
+    // console.log(data, error);
 
     if (data) {
       toast.success("Registered Successfully");

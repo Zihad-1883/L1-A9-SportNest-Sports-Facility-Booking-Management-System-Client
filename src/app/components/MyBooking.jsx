@@ -1,7 +1,7 @@
 "use client";
 import { FaCalendarAlt } from "react-icons/fa";
 import { CiTimer } from "react-icons/ci";
-import { FaClock } from "react-icons/fa6";
+import { FaBangladeshiTakaSign, FaClock } from "react-icons/fa6";
 import { BookingCancelAlert } from "./BookingCancelAlert";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -78,7 +78,8 @@ const MyBookingsPage = ({ bookings }) => {
                   <div className="flex flex-col md:items-end gap-3">
                     <div>
                       <span className="text-[#9dff3f] font-bold text-xl">
-                        ৳{booking.bookedTotalPrice}
+                        <FaBangladeshiTakaSign></FaBangladeshiTakaSign>
+                        {booking.bookedTotalPrice}
                       </span>
                     </div>
 

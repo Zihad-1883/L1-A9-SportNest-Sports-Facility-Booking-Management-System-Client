@@ -36,8 +36,17 @@ const BookingForm = ({ facility }) => {
     };
     // console.log(bookingData);
 
+    const currentDate = new Date();
+    // console.log("date", currentData);
+    currentDate.setHours(0, 0, 0, 0);
+
+    const selectedDate = new Date(bookingDate);
+    if (selectedDate < currentDate) {
+      toast.error("Please pick a valid date");
+      return;
+    }
     const { data: tokenData } = await authClient.token();
-    console.log(tokenData);
+    // console.log(tokenData);
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my-bookings`, {
       method: "POST",
