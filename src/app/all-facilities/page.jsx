@@ -1,12 +1,20 @@
-
-
 import React from "react";
 import FacilitiesCard from "../components/FacilitiesCard";
 
 const AllFacilitiesPage = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-facilities`);
-  const facilities = await res.json();
-  // console.log(facilities);
+  let facilities = [];
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/all-facilities`,
+      { cache: "no-store" },
+    );
+    if (res.ok) {
+      facilities = await res.json();
+    }
+  } catch (err) {
+    console.error("Failed to fetch:", err.message);
+  }
 
   return (
     <div className="container mx-auto">
