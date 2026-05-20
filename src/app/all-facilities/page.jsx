@@ -1,5 +1,6 @@
 import React from "react";
 import FacilitiesCard from "../components/FacilitiesCard";
+import SearchAndFilter from "../components/SearchAndFilter";
 
 const AllFacilitiesPage = async () => {
   let facilities = [];
@@ -15,10 +16,11 @@ const AllFacilitiesPage = async () => {
   } catch (err) {
     console.error("Failed to fetch:", err.message);
   }
+  console.log(facilities);
 
   return (
     <div className="container mx-auto">
-      <div className="my-10">
+      <div className="my-10 text-center md:text-left">
         <h2 className="text-5xl font-black text-white mb-2">
           Discover <span className="text-[#9dff3f]">Facilities</span>
         </h2>
@@ -26,7 +28,8 @@ const AllFacilitiesPage = async () => {
           Find the perfect spot for your favorite sport.
         </p>
       </div>
-      <FacilitiesCard facilities={facilities}></FacilitiesCard>
+      <SearchAndFilter facilities={facilities} />
+      {/* <FacilitiesCard facilities={facilities}></FacilitiesCard> */}
     </div>
   );
 };

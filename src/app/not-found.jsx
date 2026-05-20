@@ -14,7 +14,7 @@ const NotFound = () => {
           </h2>
           <p className="text-gray-400 text-sm max-w-md mx-auto mb-8">
             Looks like this page took a wrong turn on the field. The page you
-            are looking for doesn't exist or has been moved.
+            are looking for doesn&apos;t exist or has been moved.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -23,12 +23,6 @@ const NotFound = () => {
               className="btn bg-[#9dff3f] text-[#0d0e12] font-bold hover:bg-[#b4ff6a] border-none px-8"
             >
               Back to Home
-            </Link>
-            <Link
-              href="/facilities"
-              className="btn bg-[#1a1b22] text-white border border-[#2e3038] hover:border-gray-500 px-8"
-            >
-              Browse Facilities
             </Link>
           </div>
         </div>

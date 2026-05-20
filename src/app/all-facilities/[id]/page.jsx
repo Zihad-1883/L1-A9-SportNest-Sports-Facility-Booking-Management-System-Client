@@ -27,7 +27,6 @@ const FacilitiesDetailsPage = async ({ params }) => {
 
   return (
     <div className="container mx-auto">
-      <h1>details</h1>
       <div className="grid md:grid-cols-2 items-center">
         <FacilitiesDetails facility={facility}></FacilitiesDetails>
         <BookingForm facility={facility}></BookingForm>

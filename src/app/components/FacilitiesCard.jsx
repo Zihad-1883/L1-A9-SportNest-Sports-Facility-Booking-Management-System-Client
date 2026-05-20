@@ -6,6 +6,11 @@ import { MdPeople, MdBallot } from "react-icons/md";
 const FacilitiesCard = ({ facilities }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-15">
+      {facilities.length === 0 && (
+        <h2 className="text-5xl font-black text-white mb-2 text-center col-span-full">
+          No Available<span className="text-[#9dff3f]"> Facilities</span>
+        </h2>
+      )}
       {facilities.map((facility) => (
         <div
           key={facility._id}
