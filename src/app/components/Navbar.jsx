@@ -144,7 +144,10 @@ const Navbar = () => {
                 ))}
                 <DropdownMenu>
                   <DropdownItem className="hover:bg-[#2a2b35] transition-colors duration-200">
-                    <button className="block px-4 py-2 text-gray-300 hover:text-[#9dff3f] transition-colors duration-200">
+                    <button
+                      onClick={handleLogout}
+                      className="block px-4 py-2 text-gray-300 hover:text-[#9dff3f] transition-colors duration-200"
+                    >
                       Log Out
                     </button>
                   </DropdownItem>

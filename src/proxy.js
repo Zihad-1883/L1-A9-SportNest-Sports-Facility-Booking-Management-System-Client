@@ -1,20 +1,24 @@
 import { NextResponse } from 'next/server'
-import { auth } from './lib/auth'
-import { headers } from 'next/headers'
- 
-export async function proxy(request) {
 
-    const session = await auth.api.getSession({
-        headers : await headers()
-    })
+export function proxy(request) {
+  const sessionToken = 
+    request.cookies.get('better-auth.session_token')?.value ||
+    request.cookies.get('__Secure-better-auth.session_token')?.value
 
-    if(!session){
-        return NextResponse.redirect(new URL('/login', request.url))
-    }
+  if (!sessionToken) {
+    const loginUrl = new URL('/login', request.url)
+    loginUrl.searchParams.set('from', request.nextUrl.pathname)
+    return NextResponse.redirect(loginUrl)
+  }
 
+  return NextResponse.next()
 }
 
- 
 export const config = {
-  matcher: ['/add-facility' , '/manage-facilities' , '/my-bookings' , '/all-facilities/:path']
+  matcher: [
+    '/my-bookings',
+    '/add-facility', 
+    '/manage-facilities',
+    '/all-facilities/:path',
+  ],
 }
