@@ -15,23 +15,26 @@ const db = client.db("SportNestDB");
 
 export const auth = betterAuth({
   database: mongodbAdapter(db),
+  baseURL: process.env.BETTER_AUTH_URL,
+  trustedOrigins: [
+    "https://*.vercel.app",
+    "http://localhost:3000",
+  ],
   emailAndPassword: {
     enabled: true,
   },
-     socialProviders: {
-        google: { 
-            clientId: process.env.GOOGLE_CLIENT_ID, 
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET
-        }, 
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     },
-    session : {
-      cookieCache : {
-        enabled : true,
-        strategy : "jwt",
-        maxAge : 15 * 24 * 60 * 60
-      }
+  },
+  session: {
+    cookieCache: {
+      enabled: true,
+      strategy: "jwt",
+      maxAge: 15 * 24 * 60 * 60,
     },
-    plugins: [
-      jwt()
-    ]
+  },
+  plugins: [jwt()],
 });

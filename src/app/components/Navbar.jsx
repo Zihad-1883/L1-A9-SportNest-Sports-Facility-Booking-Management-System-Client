@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Dropdown } from "@heroui/react";
+import { Button, Dropdown, DropdownItem, DropdownMenu } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -10,8 +10,7 @@ import { toast } from "react-toastify";
 const Navbar = () => {
   const { data: session } = authClient.useSession();
   const user = session?.user;
-  // console.log(user); 
-  
+  // console.log(user);
 
   const pathname = usePathname();
 
@@ -143,14 +142,21 @@ const Navbar = () => {
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 ))}
+                <DropdownMenu>
+                  <DropdownItem className="hover:bg-[#2a2b35] transition-colors duration-200">
+                    <button className="block px-4 py-2 text-gray-300 hover:text-[#9dff3f] transition-colors duration-200">
+                      Log Out
+                    </button>
+                  </DropdownItem>
+                </DropdownMenu>
               </Dropdown.Popover>
             </Dropdown>
-            <button
+            {/* <button
               onClick={handleLogout}
               className="btn btn-sm bg-[#9dff3f] text-[#0d0e12] font-bold hover:bg-[#b4ff6a] border-none"
             >
               Log Out
-            </button>
+            </button> */}
           </div>
         ) : (
           <div className="navbar-end gap-2">
