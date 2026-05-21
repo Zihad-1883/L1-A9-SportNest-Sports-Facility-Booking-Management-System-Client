@@ -20,9 +20,14 @@ export const auth = betterAuth({
     "https://*.vercel.app",
     "http://localhost:3000",
   ],
-  emailAndPassword: {
-    enabled: true,
+  advanced: {
+    cookiePrefix: "better-auth",
+    defaultCookieAttributes: {
+      sameSite: "none",
+      secure: true,
+    },
   },
+  emailAndPassword: { enabled: true },
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID,
