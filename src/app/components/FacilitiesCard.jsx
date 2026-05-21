@@ -46,9 +46,12 @@ const FacilitiesCard = ({ facilities }) => {
               Capacity: {facility.capacity} people
             </div>
             <div className="flex items-center justify-between mt-auto pt-3 border-t border-[#2e3038]">
-              <button className="bg-[#9dff3f] text-[#0d0e12] font-bold text-sm px-4 py-2 rounded-xl hover:bg-[#b4ff6a] transition">
-                <Link href={`/all-facilities/${facility._id}`}>Book Now</Link>
-              </button>
+              <Link
+                href={`/all-facilities/${facility._id}`}
+                className="bg-[#9dff3f] text-[#0d0e12] font-bold text-sm px-4 py-2 rounded-xl hover:bg-[#b4ff6a] transition"
+              >
+                Book Now
+              </Link>
             </div>
           </div>
         </div>

@@ -27,7 +27,7 @@ const Banner = () => {
 
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
             <Link
-              href={"all-facilities"}
+              href={"/all-facilities"}
               className="btn bg-[#9dff3f] text-[#0d0e12] font-bold hover:bg-[#b4ff6a] border-none px-8"
             >
               Explore Facilities →
