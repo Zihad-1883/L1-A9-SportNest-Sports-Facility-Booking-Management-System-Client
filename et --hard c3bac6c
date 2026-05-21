@@ -1,0 +1,32 @@
+[33md026b73[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m fixing auth issues
+[33m46ffcde[m fixing auth issues
+[33me1b6eb4[m fixing auth issues
+[33mc3bac6c[m small fixes here and there
+[33m77c0bc6[m framer motion added
+[33m9e5da49[m search and filter impleamented
+[33mfacd399[m search and filter impleamented
+[33m2b9b80f[m loadings and not found page added
+[33m9f4248a[m for deployment
+[33mbbb5d54[m for deployment
+[33m826c005[m for deployment(auth-client.js)
+[33m00c4552[m for deployment
+[33mbd83faf[m jwt added
+[33m529c585[m edit modal & functionality  impleamented
+[33mc56215d[m updated booking functionality so that booking same facility in same time slot multiple time will throw a error
+[33m75abbbe[m add facilities impleamented
+[33m51672c7[m add facility form set up
+[33mffeebdc[m my-bookings functionality added
+[33m091de89[m Authentication implemented
+[33m3a24aeb[m bettter auth ser up
+[33m953f8a6[m booking form added
+[33me008095[m facility details added
+[33m25517aa[m created env file to track the api link
+[33m40f8abc[m added featured facilities in ui
+[33m3b306d8[m added all facilities in ui
+[33m3b3f40e[m password validation added
+[33me7360dc[m search and filter ui done
+[33m8d4f619[m login and register page ui done
+[33m458463d[m footer and other essential  homepage section done
+[33m4304bec[m banner section  done
+[33ma45cd3d[m navbar done
+[33m92a101c[m Initial commit from Create Next App
