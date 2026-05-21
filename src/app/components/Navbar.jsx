@@ -23,8 +23,9 @@ const Navbar = () => {
   ];
 
   const handleLogout = async () => {
-    toast.success("Logout Successful");
     await authClient.signOut();
+    toast.success("Logout Successful");
+    window.location.reload();
   };
 
   return (
