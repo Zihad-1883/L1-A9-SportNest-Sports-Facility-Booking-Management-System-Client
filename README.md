@@ -1,5 +1,11 @@
 # SportNest - Sports Facility Booking Management System (Client)
 
+![Next.js](https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js)
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![TailwindCSS](https://img.shields.io/badge/Tailwind-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-black?style=for-the-badge&logo=vercel)
+
 ## Purpose
 SportNest is a full-stack sports facility booking platform that allows users to discover and book premium sports facilities such as football turfs, badminton courts, swimming pools, and tennis courts. The system provides a seamless booking experience for athletes and sports enthusiasts.
 
@@ -35,3 +41,5 @@ SportNest is a full-stack sports facility booking platform that allows users to 
 - react-toastify
 - axios
 - next-themes
+
+
