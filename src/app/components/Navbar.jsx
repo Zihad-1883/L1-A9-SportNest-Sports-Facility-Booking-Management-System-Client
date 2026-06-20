@@ -17,6 +17,7 @@ const Navbar = () => {
   const links = [
     { href: "/", label: "Home" },
     { href: "/all-facilities", label: "All Facilities" },
+    { href: "/about-us", label: "About Us" },
     { href: "/my-bookings", label: "My Bookings" },
     { href: "/add-facility", label: "Add Facility" },
     { href: "/manage-facilities", label: "Manage My Facilities" },
@@ -29,7 +30,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-[#0d0e12] border-b border-[#1e2029]">
+    <>
       <div className="container mx-auto navbar p-4">
         <div className="navbar-start">
           <div className="dropdown">
@@ -179,7 +180,7 @@ const Navbar = () => {
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

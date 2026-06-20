@@ -7,8 +7,12 @@ import Link from "next/link";
 
 const Banner = () => {
   return (
-    <section className="bg-[#0d0e12] min-h-[90vh] flex items-center">
-      <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center justify-center">
+    <section className="relative bg-[#0d0e12] min-h-[90vh] flex items-center overflow-hidden">
+      {/* Premium Background Effects */}
+      <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-[#9dff3f]/10 blur-[120px] rounded-full" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-500/5 blur-[120px] rounded-full" />
+      
+      <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center justify-center relative z-10">
         <div className="flex-1 text-center lg:text-left p-5">
           <motion.h1
             initial={{ opacity: 0, x: -30 }}

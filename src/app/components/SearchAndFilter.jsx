@@ -71,6 +71,17 @@ export default function SearchAndFilter({ facilities }) {
                 {cat}
               </Button>
             ))}
+            {(search || active !== "All") && (
+              <button
+                onClick={() => {
+                  setSearch("");
+                  setActive("All");
+                }}
+                className="text-xs text-gray-500 hover:text-[#9dff3f] underline transition ml-2"
+              >
+                Reset Filters
+              </button>
+            )}
           </div>
         </div>
         <motion.div
